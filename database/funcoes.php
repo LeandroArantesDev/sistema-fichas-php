@@ -2,11 +2,6 @@
 require_once("conexao.php");
 require_once(__DIR__ . '/../fpdf/fpdf.php');
 
-//Verifica se existe uma sessão ativa e se não houver inicia uma
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
 function buscarComida()
 {
     global $conexao;
@@ -215,4 +210,13 @@ function validarCSRF($csrf)
     }
 
     return (true);
+}
+
+function validarNome($nome)
+{
+    if (!preg_match('/^[a-zA-Z0-9]{3,20}$/', $nome)) {
+        return false;
+    }
+
+    return true;
 }
