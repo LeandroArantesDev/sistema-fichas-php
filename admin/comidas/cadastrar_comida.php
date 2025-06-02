@@ -1,6 +1,7 @@
 <?php
 include("../../database/conexao.php");
 include("../../auth/validar_sessao.php");
+include("../../database/funcoes.php");
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -19,6 +20,7 @@ include("../../auth/validar_sessao.php");
     <div class="interface">
         <p class="acesse">Cadastrar produto</p>
         <form action="../../database/comidas/cadastrar_comida.php" method="post">
+            <input type="hidden" name="csrf" value="<?= gerarCSRF() ?>">
             <div class="form-group">
                 <label for="nome">Nome</label>
                 <input type="text" name="nome" id="nome" placeholder="Digite o nome do alimento">

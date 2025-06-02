@@ -1,5 +1,6 @@
 <?php
 require_once("../conexao.php");
+include("../funcoes.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $id = strip_tags(trim($_POST["id"]));
@@ -8,6 +9,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $preco = strip_tags(trim($_POST["preco"]));
     $ingredientes = strip_tags(trim($_POST["ingredientes"]));
     $imagem = strip_tags(trim($_POST["imagem"]));
+
+    //Verificar token CSRF
+    $csrf = trim(strip_tags($_POST["csrf"]));
+    if (validarCSRF($csrf) == false) {
+        $_SESSION['resposta'] = "Token Inválido";
+        header("Location: ../../admin/comidas/comidas.php");
+        exit;
+    }
 
     $update = "UPDATE comidas SET nome = ?, descricao = ?, preco = ?, ingredientes = ?, imagem = ? WHERE id = ?";
     $stmt = $conexao->prepare($update);

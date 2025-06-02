@@ -1,9 +1,18 @@
 <?php
 require_once("../conexao.php");
+include("../funcoes.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $id = strip_tags(trim($_POST["id"]));
     $nome = strip_tags(trim($_POST["nome"]));
+
+    //Verificar token CSRF
+    $csrf = trim(strip_tags($_POST["csrf"]));
+    if (validarCSRF($csrf) == false) {
+        $_SESSION['resposta'] = "Token Inválido";
+        header("Location: ../../admin/categorias/categorias.php");
+        exit;
+    }
 
     $update = "UPDATE categorias SET nome = ? WHERE id = ?";
     $stmt = $conexao->prepare($update);

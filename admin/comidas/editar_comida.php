@@ -1,6 +1,7 @@
 <?php
 require_once("../../database/conexao.php");
 include("../../auth/validar_sessao.php");
+include("../../database/funcoes.php");
 $id_comida = strip_tags(trim($_POST["id_comida"]));
 
 $select = "SELECT nome, descricao, preco, ingredientes, imagem, id_categoria FROM comidas WHERE id = ?";
@@ -28,6 +29,7 @@ $stmt->close();
     <div class="interface">
         <p class="acesse">Editar produto</p>
         <form action="../../database/comidas/editar_comida.php" method="post">
+            <input type="hidden" name="csrf" value="<?= gerarCSRF() ?>">
             <input type="hidden" name="id" value="<?= $id_comida ?>">
             <div class="form-group">
                 <label for="nome">Nome</label>

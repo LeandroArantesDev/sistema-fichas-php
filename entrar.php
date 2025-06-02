@@ -1,5 +1,5 @@
 <?php
-session_start();
+include("database/funcoes.php");
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -26,6 +26,7 @@ session_start();
         </div>
         <p class="acesse">Acesse sua conta</p>
         <form action="database/usuario/entrar.php" method="post">
+            <input type="hidden" name="csrf" value="<?= gerarCSRF() ?>">
             <div class="form-group">
                 <label for="email">E-mail</label>
                 <input type="email" name="email" id="email" placeholder="exemplo@email.com">

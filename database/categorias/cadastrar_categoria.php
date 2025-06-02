@@ -1,9 +1,17 @@
 <?php
 require_once("../conexao.php");
-session_start();
+include("../funcoes.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nome = strip_tags(trim($_POST["nome"]));
+
+    //Verificar token CSRF
+    $csrf = trim(strip_tags($_POST["csrf"]));
+    if (validarCSRF($csrf) == false) {
+        $_SESSION['resposta'] = "Token Inválido";
+        header("Location: ../../admin/categorias/categorias.php");
+        exit;
+    }
 
 
     $insert = "INSERT INTO categorias (nome) VALUE (?)";

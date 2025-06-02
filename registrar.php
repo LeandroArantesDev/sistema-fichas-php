@@ -1,5 +1,5 @@
 <?php
-session_start();
+include("database/funcoes.php");
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -26,6 +26,7 @@ session_start();
         </div>
         <p class="acesse">Registre sua conta</p>
         <form action="database/usuario/registrar.php" method="post">
+            <input type="hidden" name="csrf" value="<?= gerarCSRF() ?>">
             <div class="form-group">
                 <label for="nome">Nome</label>
                 <input type="text" name="nome" id="nome" placeholder="Seu nome completo">

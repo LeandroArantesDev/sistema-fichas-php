@@ -1,7 +1,9 @@
 <?php
 
-//Inicia ou recupera a sessão anterior
-session_start();
+//Verifica se existe uma sessão ativa e se não houver inicia uma
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 //Limpa a sessão
 $_SESSION = [];

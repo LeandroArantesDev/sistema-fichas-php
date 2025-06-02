@@ -2,6 +2,10 @@
 require_once("conexao.php");
 require_once(__DIR__ . '/../fpdf/fpdf.php');
 
+//Verifica se existe uma sessão ativa e se não houver inicia uma
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 function buscarComida()
 {
@@ -192,4 +196,23 @@ function buscarNomeComida($id)
     }
 
     return ($nComida);
+}
+
+function gerarCSRF()
+{
+    $_SESSION["csrf"] = (isset($_SESSION["csrf"])) ? $_SESSION["csrf"] : hash('sha256', random_bytes(32));
+
+    return ($_SESSION["csrf"]);
+}
+
+function validarCSRF($csrf)
+{
+
+    if (!isset($_SESSION["csrf"]) || $_SESSION["csrf"] !== $csrf) {
+        unset($_SESSION["csrf"]);
+        $_SESSION["csrf"] = (isset($_SESSION["csrf"])) ? $_SESSION["csrf"] : hash('sha256', random_bytes(32));
+        return (false);
+    }
+
+    return (true);
 }

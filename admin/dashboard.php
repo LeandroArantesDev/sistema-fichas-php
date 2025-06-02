@@ -41,20 +41,24 @@ include("../auth/validar_sessao.php");
                     início</a>
             </div>
             <div class="grid-container">
-                <article class="grid-item">
-                    <div class="conteudo">
-                        <p class="titulo">Comidas</p>
-                        <p class="descricao"><?= htmlspecialchars(buscarComida()) ?></p>
-                    </div>
-                    <i class="fa-solid fa-utensils"></i>
-                </article>
-                <article class="grid-item">
-                    <div class="conteudo">
-                        <p class="titulo">Categorias</p>
-                        <p class="descricao"><?= htmlspecialchars(buscarCategoria()) ?></p>
-                    </div>
-                    <i class="fa-solid fa-layer-group"></i>
-                </article>
+                <a href="comidas/comidas.php" target="_self">
+                    <article class="grid-item">
+                        <div class="conteudo">
+                            <p class="titulo">Comidas</p>
+                            <p class="descricao"><?= htmlspecialchars(buscarComida()) ?></p>
+                        </div>
+                        <i class="fa-solid fa-utensils"></i>
+                    </article>
+                </a>
+                <a href="categorias/categorias.php" target="_self">
+                    <article class="grid-item">
+                        <div class="conteudo">
+                            <p class="titulo">Categorias</p>
+                            <p class="descricao"><?= htmlspecialchars(buscarCategoria()) ?></p>
+                        </div>
+                        <i class="fa-solid fa-layer-group"></i>
+                    </article>
+                </a>
                 <article class="grid-item">
                     <div class="conteudo">
                         <p class="titulo">Produto mais vendido</p>

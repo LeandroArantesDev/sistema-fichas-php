@@ -1,6 +1,6 @@
 <?php
 require_once("../conexao.php");
-session_start();
+include("../funcoes.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nome = strip_tags(trim($_POST["nome"]));
@@ -10,6 +10,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $imagem = strip_tags(trim($_POST["imagem"]));
     $id_usuario = strip_tags(trim($_SESSION["id"]));
     $id_categoria = strip_tags(trim($_POST["id_categoria"]));
+
+
+    //Verificar token CSRF
+    $csrf = trim(strip_tags($_POST["csrf"]));
+    if (validarCSRF($csrf) == false) {
+        $_SESSION['resposta'] = "Token Inválido";
+        header("Location: ../../admin/comidas/comidas.php");
+        exit;
+    }
 
 
     $insert = "INSERT INTO comidas (nome, descricao, preco, ingredientes, imagem, id_usuario, id_categoria) VALUE (?,?,?,?,?,?,?)";

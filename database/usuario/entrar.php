@@ -1,10 +1,11 @@
 <?php
-session_start();
 require_once("../conexao.php");
+include("../funcoes.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
     $senha = trim(strip_tags($_POST["senha"]));
+    $csrf = trim(strip_tags($_POST["csrf"]));
 
     // Verificar o email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -13,9 +14,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
+    //Verificar token CSRF
+    if (validarCSRF($csrf) == false) {
+        $_SESSION['resposta'] = "E-mail ou senha inválidos!";
+        header("Location: ../../entrar.php");
+        exit;
+    }
+
     if (!empty($email) && !empty($senha)) {
         try {
-
             // Faz a verificação no banco de dados
             $select = "SELECT id, nome, email, senha, admin FROM usuarios WHERE email = ?";
 

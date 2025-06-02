@@ -1,6 +1,6 @@
 <?php
 include_once("../conexao.php");
-session_start();
+include("../funcoes.php");
 
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     // Recebendo os dados do formulários de criar usuário
@@ -11,6 +11,15 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['resposta'] = "Email inválido!";
+        header("Location: ../../registrar.php");
+        exit;
+    }
+
+
+    //Verificar token CSRF
+    $csrf = trim(strip_tags($_POST["csrf"]));
+    if (validarCSRF($csrf) == false) {
+        $_SESSION['resposta'] = "E-mail ou senha inválidos!";
         header("Location: ../../registrar.php");
         exit;
     }
