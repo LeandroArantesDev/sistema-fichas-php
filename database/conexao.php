@@ -27,21 +27,21 @@ function loadEnv($path)
         }
     }
 }
-loadEnv(__DIR__ . '/../../senhas.env');
+loadEnv(__DIR__ . '/../senhas.env');
 
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
+if ($_SERVER['HTTP_HOST'] == 'localhost:8000') {
     $host = 'localhost';
     $username = 'root';
     $password = '';
-    $dbname = 'ecoflow';
+    $database = 'sistema_comidas';
 } else {
     $host = $_ENV['DB_HOST'];
     $username = $_ENV['DB_USER'];
     $password = $_ENV['DB_PASS'];
-    $dbname = $_ENV['DB_NAME'];
+    $database = $_ENV['DB_NAME'];
 }
 
-$conexao = mysqli_connect($hostname, $username, $password, $database);
+$conexao = mysqli_connect($host, $username, $password, $database);
 
 if ($conexao->connect_error) {
     die("ERRO! " . $conexao->connect_error);
