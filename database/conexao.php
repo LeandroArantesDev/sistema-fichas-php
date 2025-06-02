@@ -3,15 +3,43 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
-// $hostname = "localhost";
-// $username = "root";
-// $password = "";
-// $database = "sistema_comidas";
 
-$hostname = "sql211.infinityfree.com";
-$username = "if0_39143552";
-$password = "vZ6TxFJMzEGhN";
-$database = "if0_39143552_sistema_comidas";
+function loadEnv($path)
+{
+    if (!file_exists($path)) {
+        throw new Exception("Arquivo não encontrado");
+    }
+
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue;
+        }
+
+        list($name, $value) = explode('=', $line, 2);
+        $name = trim($name);
+        $value = trim($value);
+
+        if (!array_key_exists($name, $_ENV)) {
+            $_ENV[$name] = $value;
+            putenv("$name=$value");
+        }
+    }
+}
+loadEnv(__DIR__ . '/../../senhas.env');
+
+if ($_SERVER['HTTP_HOST'] == 'localhost') {
+    $host = 'localhost';
+    $username = 'root';
+    $password = '';
+    $dbname = 'ecoflow';
+} else {
+    $host = $_ENV['DB_HOST'];
+    $username = $_ENV['DB_USER'];
+    $password = $_ENV['DB_PASS'];
+    $dbname = $_ENV['DB_NAME'];
+}
 
 $conexao = mysqli_connect($hostname, $username, $password, $database);
 
