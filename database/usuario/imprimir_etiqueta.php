@@ -19,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->close();
         gerarEtiquetasPDF($nome_comida, $quantidade_comida);
         $_SESSION['resposta'] = "Venda cadastrado com sucesso!";
-        header("Location: ../../index.php");
         $stmt = null;
         exit;
     } else {
